@@ -72,11 +72,12 @@ def _raw_preview(path: str, max_side: int):
             # 1. eingebettetes JPEG – schnell und farbtreu wie in der Kamera
             try:
                 thumb = raw.extract_thumb()
-                if thumb.format == rawpy.ThumbFormat.JPEG:
-                    im = Image.open(io.BytesIO(thumb.data))
+                data = thumb.data
+                if thumb.format == rawpy.ThumbFormat.JPEG or isinstance(data, bytes):
+                    im = Image.open(io.BytesIO(bytes(data)))
                     im.load()
                 else:
-                    im = Image.fromarray(thumb.data)
+                    im = Image.fromarray(data)  # Bitmap-Vorschau (numpy-Array)
                 if max(im.size) >= min(max_side, 1000):
                     return im, "eingebettete Vorschau"
             except Exception:  # noqa: BLE001 – kein/defektes Thumbnail
