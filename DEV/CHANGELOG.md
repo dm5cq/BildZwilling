@@ -14,7 +14,7 @@
 - D1 Pyright (Windows/macOS/Linux) im Build und in der CI, Testabdeckung in der CI
 - Fix (von der Typprüfung gefunden): Seestar-Fehlerzähler überschrieb eine Methode (T19); Cloud-Vergleich nach Abmelden (T20)
 - R13 Quellcode öffentlich auf https://github.com/dm5cq/BildZwilling – Link im Info-Fenster, Lizenztext, Systeminfo, CLI --license
-- Releases: Versions-Tag (v2.2) erzeugt automatisch ein GitHub-Release mit Windows-Paket (Programm, Kommandozeile, Lizenzen, Quick-Guides, SHA256SUMS) und PDFs
+- Releases: neue Versionsnummer auf main (oder Versions-Tag) erzeugt automatisch ein GitHub-Release mit Windows-Paket (Programm, Kommandozeile, Lizenzen, Quick-Guides, SHA256SUMS) und PDFs
 - Tests: 61 (vorher 42)
 
 ## 2.1 – 17.11.2026

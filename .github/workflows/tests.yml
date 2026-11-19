@@ -89,21 +89,38 @@ jobs:
             ${{ env.PKG }}.zip.sha256
 
   release:
-    # Nur bei einem Versions-Tag (git tag v2.2 && git push origin v2.2)
-    if: startsWith(github.ref, 'refs/tags/v')
+    # Automatisch: Liegt auf main eine Version (bildzwilling/__init__.py → VERSION), zu der es noch kein
+    # Release gibt, wird das Release „v<Version>“ erstellt. Alternativ per Versions-Tag (v2.3).
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
     needs: build-windows
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
+      - name: Version bestimmen und prüfen, ob es das Release schon gibt
+        id: ver
+        run: |
+          v=$(python3 -c "import bildzwilling; print(bildzwilling.VERSION)")
+          tag="v$v"
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then tag="$GITHUB_REF_NAME"; fi
+          echo "v=${tag#v}" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if gh release view "$tag" -R "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $tag existiert bereits – nichts zu tun."
+            echo "skip=1" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/download-artifact@v4
+        if: steps.ver.outputs.skip != '1'
         with:
           name: BildZwilling-Windows
           path: pkg
       - name: Release-Text aus dem Changelog
+        if: steps.ver.outputs.skip != '1'
         run: |
-          v="${GITHUB_REF_NAME#v}"
+          v="${{ steps.ver.outputs.v }}"
           awk -v v="$v" '$0 ~ "^## "v" " {f=1; next} /^## / && f {exit} f' DEV/CHANGELOG.md > notes.md
           {
             echo ""
@@ -114,10 +131,10 @@ jobs:
           } >> notes.md
           cat notes.md
       - name: Release erstellen
-        env:
-          GH_TOKEN: ${{ github.token }}
+        if: steps.ver.outputs.skip != '1'
         run: |
-          gh release create "$GITHUB_REF_NAME" pkg/* \
+          tag="${{ steps.ver.outputs.tag }}"
+          gh release create "$tag" pkg/* \
             docs/BildZwilling_Technische_Beschreibung.pdf docs/BildZwilling_QuickGuide.pdf \
             docs/BildZwilling_QuickGuide_EN.pdf \
-            --title "BildZwilling ${GITHUB_REF_NAME#v}" --notes-file notes.md --verify-tag
+            --target "$GITHUB_SHA" --title "BildZwilling ${tag#v}" --notes-file notes.md

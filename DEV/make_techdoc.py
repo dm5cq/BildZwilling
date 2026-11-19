@@ -205,7 +205,7 @@ def build():
                             "Temp-Ordner beim Start löschen.", ok],
         ["R13", "Quellcode öffentlich", "github.com/dm5cq/BildZwilling – Link im Info-Fenster, im Lizenztext, in der "
                                         "Systeminfo und bei CLI --license.", ok],
-        ["–", "Releases", "Ein Versions-Tag (z. B. v2.2) baut automatisch das Windows-Paket (Programm, "
+        ["–", "Releases", "Eine neue Versionsnummer auf main (oder ein Versions-Tag) baut automatisch das Windows-Paket (Programm, "
                           "Kommandozeile, Lizenzen, Quick-Guides, SHA256SUMS) und veröffentlicht es mit den PDFs "
                           "als GitHub-Release.", ok],
         ["D1", "Typprüfung im Build", "Pyright fest in build-exe.bat/build-mac.sh und CI (Windows, macOS, Linux); "
@@ -462,8 +462,9 @@ def build():
                   "<b>SHA256SUMS.txt</b> (Prüfsummen der EXE-Dateien)"])
     s.append(P("<b>Fertiges Paket ohne eigenen Build:</b> unter <i>github.com/dm5cq/BildZwilling/releases</i> "
                "das ZIP „BildZwilling-&lt;Version&gt;-Windows“ herunterladen, entpacken, starten. Die Prüfsummen "
-               "stehen in SHA256SUMS.txt. Neue Releases entstehen automatisch, sobald ein Versions-Tag "
-               "(<font name='DVM'>git tag v2.3 &amp;&amp; git push origin v2.3</font>) hochgeladen wird."))
+               "stehen in SHA256SUMS.txt. Neue Releases entstehen automatisch: Sobald auf <i>main</i> eine neue "
+               "Versionsnummer (VERSION in bildzwilling/__init__.py) liegt und alle Tests bestehen, wird das Release "
+               "„v&lt;Version&gt;“ mit Paket und PDFs erstellt (alternativ per Versions-Tag)."))
     s.append(P("<b>macOS:</b> <font name='DVM'>./build-mac.sh</font> auf dem Mac → <i>Portable/BildZwilling.app</i> "
                "und <i>BildZwilling-cli</i>. <b>Ohne Build:</b> <font name='DVM'>python main.py</font> bzw. "
                "<font name='DVM'>python cli.py</font>."))
