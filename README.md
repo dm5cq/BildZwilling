@@ -1,10 +1,21 @@
 # BildZwilling 2.2
 
+[![Tests](https://github.com/dm5cq/BildZwilling/actions/workflows/tests.yml/badge.svg)](https://github.com/dm5cq/BildZwilling/actions/workflows/tests.yml)
+[![Lizenz: GPL v3](https://img.shields.io/badge/Lizenz-GPL%20v3-blue.svg)](LICENSE)
+
 Findet **doppelte Fotos** – auch mit anderem Dateinamen, in anderen Ordnern oder auf anderen
 Laufwerken – und verschiebt die Duplikate **sicher in einen Archivordner**. Gelöscht wird erst
 nach Sichtung und ausdrücklicher Freigabe.
 
 *© 2026 Stefan J. Kaiser DM5CQ / OE8KKS (Idee, Konzept & Prompt) · Umsetzung: Claude (Anthropic) · Lizenz: GNU GPL v3 oder später · Version 2.2 · Stand 18.11.2026*
+
+**Dokumentation:** [Quick-Guide](docs/BildZwilling_QuickGuide.pdf) ·
+[Quick Guide (English)](docs/BildZwilling_QuickGuide_EN.pdf) ·
+[Technische Beschreibung](docs/BildZwilling_Technische_Beschreibung.pdf)
+
+**Windows-EXE:** selbst bauen mit `build-exe.bat` (siehe „Bauen“) oder – angemeldet bei GitHub – unter
+[Actions](https://github.com/dm5cq/BildZwilling/actions/workflows/tests.yml) beim letzten erfolgreichen Lauf
+das Paket „BildZwilling-Windows“ herunterladen (wird 90 Tage aufbewahrt).
 
 ## Funktionen
 
@@ -98,7 +109,7 @@ DEV/                        Prompt, Entwicklungsstand, Changelog
 BildZwilling ist freie Software: Sie dürfen es unter den Bedingungen der **GNU General Public License,
 Version 3 oder (nach Ihrer Wahl) einer späteren Version** weitergeben und/oder verändern (Datei `LICENSE`).
 Wer die EXE weitergibt, legt `LICENSE.txt` und `THIRD_PARTY_LICENSES.txt` bei und macht den Quellcode
-(dieses Projekt) verfügbar. Lizenzen der eingebundenen Komponenten: `THIRD_PARTY_LICENSES.txt`.
+verfügbar – ein Hinweis auf **https://github.com/dm5cq/BildZwilling** genügt. Lizenzen der eingebundenen Komponenten: `THIRD_PARTY_LICENSES.txt`.
 
 ## Haftungsausschluss
 
