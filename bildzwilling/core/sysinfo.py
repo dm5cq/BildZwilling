@@ -6,7 +6,7 @@ from __future__ import annotations
 import platform
 import sys
 
-from .. import APP_NAME, BUILD_DATE, LICENSE_SPDX, VERSION
+from .. import APP_NAME, BUILD_DATE, LICENSE_SPDX, SOURCE_URL, VERSION
 from . import tools
 from .logutil import anonymize_paths, redact
 
@@ -14,6 +14,7 @@ from .logutil import anonymize_paths, redact
 def system_info(data_dir: str = "", caps: dict | None = None) -> str:
     lines = [f"{APP_NAME} {VERSION} ({BUILD_DATE}) · {LICENSE_SPDX}",
              f"System: {platform.system()} {platform.release()} ({platform.version()}) · {platform.machine()}",
+             f"Quellcode: {SOURCE_URL}",
              f"Python: {platform.python_version()} · {'EXE' if getattr(sys, 'frozen', False) else 'Quellcode'}"]
     try:
         import tkinter

@@ -13,9 +13,9 @@ nach Sichtung und ausdrücklicher Freigabe.
 [Quick Guide (English)](docs/BildZwilling_QuickGuide_EN.pdf) ·
 [Technische Beschreibung](docs/BildZwilling_Technische_Beschreibung.pdf)
 
-**Windows-EXE:** selbst bauen mit `build-exe.bat` (siehe „Bauen“) oder – angemeldet bei GitHub – unter
-[Actions](https://github.com/dm5cq/BildZwilling/actions/workflows/tests.yml) beim letzten erfolgreichen Lauf
-das Paket „BildZwilling-Windows“ herunterladen (wird 90 Tage aufbewahrt).
+**Download (Windows):** unter [Releases](https://github.com/dm5cq/BildZwilling/releases/latest) das ZIP
+`BildZwilling-<Version>-Windows.zip` herunterladen, entpacken und `BildZwilling.exe` starten – keine Installation.
+Prüfsummen stehen in `SHA256SUMS.txt`. Oder selbst bauen mit `build-exe.bat` (siehe „Bauen“).
 
 ## Funktionen
 

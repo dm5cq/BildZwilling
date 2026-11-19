@@ -77,8 +77,8 @@ TXT = {
               "Kontrast, große Schrift, Sprachausgabe.<br/>"
               "• <b>Optional:</b> exiftool.exe / ffmpeg.exe im Ordner <i>tools</i>.<br/>"
               "• <b>Berichte:</b> CSV, HTML mit Vorschaubildern · <b>BildZwilling-cli.exe</b> für NAS/Aufgabenplanung.<br/>"
-              "• <b>Freie Software (GNU GPL v3)</b> – Nutzung auf eigene Verantwortung, ohne Gewährleistung. "
-              "Vorher eine Datensicherung anlegen."),
+              "• <b>Freie Software (GNU GPL v3)</b>, Quellcode: github.com/dm5cq/BildZwilling – Nutzung auf "
+              "eigene Verantwortung, ohne Gewährleistung. Vorher eine Datensicherung anlegen."),
         copy="© 2026 Stefan J. Kaiser DM5CQ / OE8KKS (Idee, Konzept & Prompt) · Umsetzung: Claude (Anthropic) · "
              "Lizenz: GNU GPL v3 · Stand {d} · Version {v}",
         file="BildZwilling_QuickGuide.pdf",
@@ -128,7 +128,8 @@ TXT = {
               "large font, speech output.<br/>"
               "• <b>Optional:</b> exiftool.exe / ffmpeg.exe in the <i>tools</i> folder.<br/>"
               "• <b>Reports:</b> CSV, HTML with thumbnails · <b>BildZwilling-cli.exe</b> for NAS/task scheduler.<br/>"
-              "• <b>Free software (GNU GPL v3)</b> – use at your own risk, without warranty. Make a backup first."),
+              "• <b>Free software (GNU GPL v3)</b>, source: github.com/dm5cq/BildZwilling – use at your own risk, "
+              "without warranty. Make a backup first."),
         copy="© 2026 Stefan J. Kaiser DM5CQ / OE8KKS (idea, concept & prompt) · Implementation: Claude (Anthropic) · "
              "License: GNU GPL v3 · {d} · Version {v}",
         file="BildZwilling_QuickGuide_EN.pdf",

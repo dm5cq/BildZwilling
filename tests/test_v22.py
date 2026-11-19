@@ -66,6 +66,7 @@ class Legal(unittest.TestCase):
         self.assertIn("eigene Verantwortung", legal.disclaimer_short())
         self.assertIn("Datensicherung", legal.disclaimer_full())
         self.assertIn("Version 3", legal.license_notice())
+        self.assertIn("https://github.com/dm5cq/BildZwilling", legal.license_notice())   # GPL-Quellcode-Hinweis
 
     def test_cli_version_and_license(self):
         buf = io.StringIO()
@@ -77,6 +78,7 @@ class Legal(unittest.TestCase):
         with redirect_stdout(buf):
             self.assertEqual(cli.main(["--license"]), 0)
         self.assertIn("GEWÄHRLEISTUNG", buf.getvalue())
+        self.assertIn("github.com/dm5cq/BildZwilling", buf.getvalue())
         with redirect_stdout(io.StringIO()):
             self.assertEqual(cli.main([]), 2)
 

@@ -12,6 +12,7 @@ AUTHOR_SHORT = "Stefan J. Kaiser"
 IMPLEMENTATION = "Claude (Anthropic)"
 LICENSE_SPDX = "GPL-3.0-or-later"
 LICENSE_NAME = "GNU GPL v3"
+SOURCE_URL = "https://github.com/dm5cq/BildZwilling"  # Quellcode (GPL v3, Abschnitt 6)
 # Eine einzige Quelle für alle Copyright-Angaben (Fenster, Berichte, PDFs, CLI, EXE-Eigenschaften).
 # Der Name steht genau einmal; „Idee, Konzept & Prompt“ ist ihm direkt zugeordnet.
 COPYRIGHT = (

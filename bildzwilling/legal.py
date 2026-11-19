@@ -6,6 +6,7 @@ from __future__ import annotations
 import os
 import sys
 
+from . import SOURCE_URL
 from .i18n import _ as tr
 
 
@@ -18,7 +19,7 @@ def license_notice() -> str:
         "BildZwilling wird in der Hoffnung verbreitet, dass es nützlich ist, aber OHNE JEDE GEWÄHRLEISTUNG – "
         "sogar ohne die implizite Gewährleistung der MARKTREIFE oder der EIGNUNG FÜR EINEN BESTIMMTEN ZWECK. "
         "Einzelheiten stehen in der GNU General Public License (Datei LICENSE).\n\n"
-        "Den Quellcode erhalten Sie zusammen mit dem Programm (Projekt-ZIP) bzw. beim Herausgeber.")
+        "Quellcode: {url}").format(url=SOURCE_URL)
 
 
 def disclaimer_short() -> str:

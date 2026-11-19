@@ -203,6 +203,11 @@ def build():
                                 "„Systeminfo kopieren“ im Info-Fenster.", ok],
         ["C7", "Aufräumen", "Cache monatlich bereinigen (nur erreichbare Ordner), Knopf unter ⚙ → Wartung; alte "
                             "Temp-Ordner beim Start löschen.", ok],
+        ["R13", "Quellcode öffentlich", "github.com/dm5cq/BildZwilling – Link im Info-Fenster, im Lizenztext, in der "
+                                        "Systeminfo und bei CLI --license.", ok],
+        ["–", "Releases", "Ein Versions-Tag (z. B. v2.2) baut automatisch das Windows-Paket (Programm, "
+                          "Kommandozeile, Lizenzen, Quick-Guides, SHA256SUMS) und veröffentlicht es mit den PDFs "
+                          "als GitHub-Release.", ok],
         ["D1", "Typprüfung im Build", "Pyright fest in build-exe.bat/build-mac.sh und CI (Windows, macOS, Linux); "
                                       "Testabdeckung in der CI.", ok],
     ], [10 * mm, 40 * mm, W - 73 * mm, 23 * mm]))
@@ -212,9 +217,10 @@ def build():
                "(SPDX: GPL-3.0-or-later). Jeder darf das Programm nutzen, weitergeben und verändern – "
                "Weitergaben müssen wieder unter der GPL stehen und den Quellcode verfügbar machen."))
     s += bullets([
-        "<b>Weitergabe der EXE:</b> LICENSE.txt, THIRD_PARTY_LICENSES.txt und SHA256SUMS.txt aus dem Ordner "
-        "<i>Portable</i> beilegen und den Quellcode (Projekt-ZIP) mitgeben oder einen Link darauf angeben "
-        "(z. B. GitHub).",
+        "<b>Quellcode:</b> öffentlich unter <b>https://github.com/dm5cq/BildZwilling</b> (auch im Info-Fenster "
+        "und im Lizenztext genannt).",
+        "<b>Weitergabe der EXE:</b> LICENSE.txt, THIRD_PARTY_LICENSES.txt und SHA256SUMS.txt beilegen (im "
+        "Release-Paket bereits enthalten) und auf den Quellcode-Link hinweisen.",
         "<b>Eingebundene Komponenten</b> (Python, Tcl/Tk, Pillow, pillow-heif/libheif, rawpy/LibRaw, NumPy, "
         "ExifRead, Send2Trash, PyInstaller-Startprogramm) stehen unter GPL-verträglichen Lizenzen (PSF, MIT, BSD, "
         "LGPL). ExifTool und FFmpeg werden nicht mitgeliefert.",
@@ -454,6 +460,10 @@ def build():
                   "<b>tools\\</b> – Ablage für optionales <i>exiftool.exe</i> und <i>ffmpeg.exe</i> (mit LIESMICH)",
                   "den Quick-Guide als PDF, <b>LICENSE.txt</b>, <b>THIRD_PARTY_LICENSES.txt</b> und "
                   "<b>SHA256SUMS.txt</b> (Prüfsummen der EXE-Dateien)"])
+    s.append(P("<b>Fertiges Paket ohne eigenen Build:</b> unter <i>github.com/dm5cq/BildZwilling/releases</i> "
+               "das ZIP „BildZwilling-&lt;Version&gt;-Windows“ herunterladen, entpacken, starten. Die Prüfsummen "
+               "stehen in SHA256SUMS.txt. Neue Releases entstehen automatisch, sobald ein Versions-Tag "
+               "(<font name='DVM'>git tag v2.3 &amp;&amp; git push origin v2.3</font>) hochgeladen wird."))
     s.append(P("<b>macOS:</b> <font name='DVM'>./build-mac.sh</font> auf dem Mac → <i>Portable/BildZwilling.app</i> "
                "und <i>BildZwilling-cli</i>. <b>Ohne Build:</b> <font name='DVM'>python main.py</font> bzw. "
                "<font name='DVM'>python cli.py</font>."))
@@ -722,8 +732,8 @@ def build():
         ["R12", "Code-Signatur (Zertifikat, z. B. über SignPath für Open Source kostenlos)", "Vertrauen, keine "
                                                                                              "SmartScreen-Warnung",
          "mittel"],
-        ["R13", "Quellcode öffentlich (GitHub) und Link im Info-Fenster", "erfüllt GPL-Quellcodepflicht elegant",
-         "gering"],
+        ["R13", "Quellcode öffentlich (GitHub) und Link im Info-Fenster – umgesetzt", "erfüllt GPL-Quellcodepflicht",
+         "erledigt"],
         ["R14", "Update-Hinweis (nur auf Wunsch, HTTPS, signierte Versionsdatei)", "Sicherheitsupdates erreichen "
                                                                                     "Nutzer", "mittel"],
         ["R15", "Archiv-Journal mit Prüfsumme je Zeile", "erkennt Manipulation/Bitfehler", "gering"],

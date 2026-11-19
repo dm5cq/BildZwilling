@@ -11,7 +11,9 @@ import os
 import tkinter as tk
 from tkinter import ttk
 
-from .. import APP_NAME, AUTHOR, BUILD_DATE, COPYRIGHT_SHORT, IMPLEMENTATION, LICENSE_NAME, VERSION
+import webbrowser
+
+from .. import APP_NAME, AUTHOR, BUILD_DATE, COPYRIGHT_SHORT, IMPLEMENTATION, LICENSE_NAME, SOURCE_URL, VERSION
 from ..core import imaging
 from ..core.fsutil import open_in_file_manager
 from ..core.sysinfo import system_info
@@ -147,6 +149,7 @@ class AboutDialog:
         row(_("Umsetzung"), text(IMPLEMENTATION))
         row(_("Lizenz"), with_link(_("{l} oder später").format(l=LICENSE_NAME), _("Lizenztext anzeigen"),
                                    self.show_license))
+        row(_("Quellcode"), with_link(SOURCE_URL.replace("https://", ""), _("Öffnen"), self.open_source))
         row(_("Komponenten"), comps)
         row(_("Datenordner"), with_link(_short_path(app.data_dir), _("Öffnen"),
                                         lambda: open_in_file_manager(app.data_dir)))
@@ -188,6 +191,12 @@ class AboutDialog:
     def copy_info(self):
         ok = dialogs.copy_to_clipboard(self.win, self.info_text())
         self.copy_btn.configure(text=_("Kopiert ✔") if ok else _("Systeminfo kopieren"))
+
+    def open_source(self):
+        try:
+            webbrowser.open(SOURCE_URL)
+        except webbrowser.Error:
+            pass
 
     def show_license(self):
         text = license_notice() + "\n\n" + disclaimer_full() + "\n\n" + "─" * 60 + "\n\n" + read_text_file("LICENSE")
@@ -232,8 +241,8 @@ def ask_disclaimer(parent) -> bool:
              font=(theme.FAMILY, theme.SIZE + 6, "bold"), anchor="w").pack(side="left")
     tk.Label(outer, text=disclaimer_full(), bg=theme.BG, fg=theme.TEXT, font=(theme.FAMILY, theme.SIZE),
              wraplength=560, justify="left", anchor="w").pack(fill="x", pady=(16, 8))
-    tk.Label(outer, text=_("Lizenz: {l} oder später – freie Software, Quellcode im Projekt-ZIP.").format(
-        l=LICENSE_NAME), bg=theme.BG, fg=theme.MUTED, font=(theme.FAMILY, theme.SIZE - 1), anchor="w",
+    tk.Label(outer, text=_("Lizenz: {l} oder später – freie Software, Quellcode: {u}").format(
+        l=LICENSE_NAME, u=SOURCE_URL), bg=theme.BG, fg=theme.MUTED, font=(theme.FAMILY, theme.SIZE - 1), anchor="w",
         justify="left").pack(fill="x")
     var = tk.BooleanVar(value=False)
     cb = ttk.Checkbutton(outer, text=_("Gelesen und verstanden"), variable=var)

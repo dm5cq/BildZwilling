@@ -1,7 +1,15 @@
 # Automatische Tests bei jedem Push – auf Windows, macOS und Linux.
-# Hätte die beiden Windows-Fehler aus 1.5/2.0 schon vor dem Build gefunden.
+# Danach wird das Windows-Paket gebaut (Programm + Kommandozeile + Lizenzen + Prüfsummen).
+# Ein Versions-Tag (z. B. v2.2) erzeugt zusätzlich automatisch ein GitHub-Release.
 name: Tests
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   test:
     strategy:
@@ -24,6 +32,7 @@ jobs:
         continue-on-error: true
       - name: Typprüfung (Pyright)
         run: python -m pyright
+
   build-windows:
     needs: test
     runs-on: windows-latest
@@ -34,13 +43,81 @@ jobs:
           python-version: "3.12"
       - run: python -m pip install -r requirements-build.txt
       - run: python DEV/make_third_party.py
-      - run: >
+      - name: Programm bauen (BildZwilling.exe)
+        run: >
           python -m PyInstaller --noconfirm --onefile --windowed --name BildZwilling
           --icon assets/icon.ico --version-file version_info.txt --add-data "assets;assets"
           --add-data "LICENSE;." --add-data "THIRD_PARTY_LICENSES.txt;."
           --collect-all rawpy --collect-all pillow_heif --collect-submodules send2trash
           --hidden-import exifread --hidden-import bildzwilling.i18n_en main.py
+      - name: Kommandozeile bauen (BildZwilling-cli.exe)
+        run: >
+          python -m PyInstaller --noconfirm --onefile --console --name BildZwilling-cli
+          --icon assets/icon.ico --version-file version_info.txt --add-data "LICENSE;."
+          --collect-all rawpy --collect-all pillow_heif --collect-submodules send2trash
+          --hidden-import exifread --hidden-import bildzwilling.i18n_en cli.py
+      - name: Kurztest der EXE
+        shell: pwsh
+        run: |
+          $out = & dist/BildZwilling-cli.exe --version
+          Write-Output $out
+          if ($LASTEXITCODE -ne 0 -or -not ($out -match "BildZwilling")) { throw "CLI-EXE startet nicht" }
+      - name: Portable-Ordner zusammenstellen
+        shell: pwsh
+        run: |
+          $v = python -c "import bildzwilling; print(bildzwilling.VERSION)"
+          $d = "BildZwilling-$v-Windows"
+          New-Item -ItemType Directory -Force "$d/tools" | Out-Null
+          Copy-Item dist/BildZwilling.exe, dist/BildZwilling-cli.exe $d
+          Copy-Item LICENSE "$d/LICENSE.txt"
+          Copy-Item THIRD_PARTY_LICENSES.txt, docs/BildZwilling_QuickGuide.pdf, docs/BildZwilling_QuickGuide_EN.pdf $d
+          Copy-Item assets/tools_LIESMICH.txt "$d/tools/LIESMICH.txt"
+          Get-FileHash -Algorithm SHA256 "$d/BildZwilling.exe", "$d/BildZwilling-cli.exe" |
+            ForEach-Object { $_.Hash.ToLower() + "  " + (Split-Path $_.Path -Leaf) } |
+            Set-Content -Encoding ascii "$d/SHA256SUMS.txt"
+          Get-Content "$d/SHA256SUMS.txt"
+          Compress-Archive -Path $d -DestinationPath "$d.zip"
+          Get-FileHash -Algorithm SHA256 "$d.zip" |
+            ForEach-Object { $_.Hash.ToLower() + "  " + (Split-Path $_.Path -Leaf) } |
+            Set-Content -Encoding ascii "$d.zip.sha256"
+          "PKG=$d" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV
       - uses: actions/upload-artifact@v4
         with:
           name: BildZwilling-Windows
-          path: dist/BildZwilling.exe
+          path: |
+            ${{ env.PKG }}.zip
+            ${{ env.PKG }}.zip.sha256
+
+  release:
+    # Nur bei einem Versions-Tag (git tag v2.2 && git push origin v2.2)
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build-windows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: BildZwilling-Windows
+          path: pkg
+      - name: Release-Text aus dem Changelog
+        run: |
+          v="${GITHUB_REF_NAME#v}"
+          awk -v v="$v" '$0 ~ "^## "v" " {f=1; next} /^## / && f {exit} f' DEV/CHANGELOG.md > notes.md
+          {
+            echo ""
+            echo "**Download:** BildZwilling-$v-Windows.zip entpacken und BildZwilling.exe starten (keine Installation)."
+            echo "Prüfsummen: SHA256SUMS.txt im Paket bzw. .zip.sha256. Unsigniert – Windows SmartScreen: „Weitere Informationen“ → „Trotzdem ausführen“."
+            echo ""
+            echo "Freie Software unter der GNU GPL v3 oder später – Nutzung auf eigene Verantwortung und ohne Gewährleistung; vorher eine Datensicherung anlegen."
+          } >> notes.md
+          cat notes.md
+      - name: Release erstellen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" pkg/* \
+            docs/BildZwilling_Technische_Beschreibung.pdf docs/BildZwilling_QuickGuide.pdf \
+            docs/BildZwilling_QuickGuide_EN.pdf \
+            --title "BildZwilling ${GITHUB_REF_NAME#v}" --notes-file notes.md --verify-tag
