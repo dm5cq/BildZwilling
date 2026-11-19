@@ -1,0 +1,4 @@
+-r requirements.txt
+pyinstaller>=6.10
+pyright>=1.1.380     # Typprüfung im Build (lädt beim ersten Lauf Node.js herunter)
+coverage>=7.6        # Testabdeckung

@@ -1,0 +1,9 @@
+{
+  "include": ["bildzwilling", "main.py", "cli.py"],
+  "exclude": ["**/__pycache__", ".venv", "build", "dist"],
+  "typeCheckingMode": "basic",
+  "pythonVersion": "3.12",
+  "reportMissingImports": "none",
+  "reportMissingModuleSource": "none",
+  "reportPossiblyUnboundVariable": "none"
+}

@@ -1,0 +1,14 @@
+BildZwilling 1.5 - optionale Werkzeuge
+======================================
+
+Diese Programme sind NICHT erforderlich. Wenn sie hier (oder direkt neben der EXE) liegen,
+nutzt BildZwilling sie automatisch:
+
+1) ExifTool  - vollständige Metadaten aller Hersteller (MakerNotes), neueste Kameras, Videos
+   Download: https://exiftool.org  (Windows: ZIP entpacken, "exiftool(-k).exe" in "exiftool.exe"
+   umbenennen und zusammen mit dem Ordner "exiftool_files" hierher kopieren)
+
+2) ffmpeg    - Vorschaubilder für Videos (MP4, MOV, Insta360 INSV, DJI ...)
+   Download: https://ffmpeg.org/download.html  (Windows-Build, nur ffmpeg.exe hierher kopieren)
+
+Alternativ können die Pfade unter  Einstellungen -> Werkzeuge  angegeben werden.

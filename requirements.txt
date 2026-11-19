@@ -1,0 +1,7 @@
+# Laufzeit
+Pillow>=11.3          # JPEG, PNG, TIFF, WebP, GIF, BMP, AVIF, PSD ...
+pillow-heif>=0.18     # HEIC/HEIF (iPhone, Sony, Canon HIF)
+rawpy>=0.24           # RAW via LibRaw: RAF, NEF, CR2/CR3, RW2, ORF, RWL, 3FR/FFF, DNG (DJI, Insta360, Leica) ...
+ExifRead>=3.0         # EXIF auch aus RAW-Dateien
+Send2Trash>=1.8       # "Endgültig löschen" in den Papierkorb
+numpy>=1.26           # FITS (Seestar & Co.), RAW-Sensordaten

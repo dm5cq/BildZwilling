@@ -1,0 +1,8 @@
+.venv/
+build/
+dist/
+Portable/
+__pycache__/
+*.pyc
+BildZwilling_Daten/
+*.spec
